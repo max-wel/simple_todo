@@ -56,7 +56,7 @@ resource "aws_route_table_association" "todo_rt_assoc" {
 }
 
 resource "aws_security_group" "jenkins_sg" {
-  name = "allow_http"
+  name = "allow_http/https"
   description = "Allow traffic to jenkins server from my ip"
   vpc_id = aws_vpc.todo_vpc.id
 
@@ -64,13 +64,19 @@ resource "aws_security_group" "jenkins_sg" {
     from_port = 80
     to_port = 80
     protocol = "TCP"
-    cidr_blocks = [var.my_ip] #change to your ip
+    cidr_blocks = [var.my_ip]
+  }
+  ingress {
+    from_port = 443
+    to_port = 443
+    protocol = "TCP"
+    cidr_blocks = [var.my_ip]
   }
   ingress {
     from_port = 22
     to_port = 22
     protocol = "TCP"
-    cidr_blocks = [var.my_ip] #change to your ip
+    cidr_blocks = [var.my_ip]
   }
   egress {
     from_port = 0
