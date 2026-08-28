@@ -1,6 +1,39 @@
 ---
+- name: Install efs-utils
+  hosts: all
+  become: true
+  tasks:
+    - name: Install amazon-efs-utils
+      dnf:
+        name: amazon-efs-utils
+        update_cache: true
+        state: present
+
+- name: Mount filesystem
+  hosts: all
+  tasks:
+    - name: Create mount directory
+      file:
+        path: /home/ec2-user/workspace
+        state: directory
+    - name: Mount s3 filesystem
+      ansible.posix.mount:
+        src: fs-07d07acdd870b9a40:/
+        path: /home/ec2-user/workspace
+        opts: accesspoint=fsap-0b163134358c029a5,rw,iam
+        state: mounted
+        fstype: s3files
+      become: true
+
+#- name: Pause for debug
+#  hosts: all
+#  tasks:
+#    - name: Pause for debug
+#      pause:
+#        prompt: "Check file system"
+
 - name: Install docker
-  hosts: jenkins_server
+  hosts: all
   become: true
   tasks:
     - name: Install docker
@@ -14,17 +47,19 @@
         state: started
 
 - name: Add ec2-user to docker group
-  hosts: jenkins_server
+  hosts: all
   become: true
   tasks:
     - name: Add ec2-user to docker group
-      user:
+      ansible.builtin.user:
         name:  ec2-user
         groups: docker
         append: true
+    - name: Refresh ssh
+      ansible.builtin.meta: reset_connection
 
 - name: Run jenkins as container
-  hosts: jenkins_server
+  hosts: all
   tasks:
     - name: Start container
       docker_container:
@@ -36,7 +71,7 @@
           - "80:8080"
           - "50000:50000"
         volumes:
-          - jenkins_home:/var/jenkins_home
+          - /home/ec2-user/workspace:/var/jenkins_home
 
 
     

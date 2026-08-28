@@ -38,6 +38,9 @@ build/
 # .tfstate files
 *.tfstate
 *.tfstate.*
+*.tfvars
+*.tfvars.json
+
 
 # Crash logs
 crash.log
