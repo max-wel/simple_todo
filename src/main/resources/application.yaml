@@ -1,3 +1,9 @@
 spring:
   application:
     name: simple_todo
+  datasource:
+    url: jdbc:mysql://localhost:3306/simple_todo?createDatabaseIfNotExist=true
+    username: root
+    password: admin
+  jpa:
+    show-sql: true
