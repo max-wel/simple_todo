@@ -44,3 +44,7 @@ build/
 
 # Crash logs
 crash.log
+
+# Ansible
+**/vars_file
+**/hosts

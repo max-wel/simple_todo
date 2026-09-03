@@ -11,6 +11,8 @@
 
 - name: Mount filesystem
   hosts: all
+  vars_files:
+    vars_file
   tasks:
     - name: Create mount directory
       file:
@@ -18,9 +20,9 @@
         state: directory
     - name: Mount s3 filesystem
       ansible.posix.mount:
-        src: fs-07d07acdd870b9a40:/
+        src: "{{filesystem_id}}:/"
         path: /home/ec2-user/workspace
-        opts: accesspoint=fsap-0b163134358c029a5,rw,iam
+        opts: "accesspoint={{access_point_id}},rw,iam"
         state: mounted
         fstype: s3files
       become: true

@@ -14,6 +14,7 @@ resource "aws_s3_bucket" "workspace_bucket" {
   versioning {
     enabled = true
   }
+  force_destroy = true
 
   tags = {
     server = "jenkins"
