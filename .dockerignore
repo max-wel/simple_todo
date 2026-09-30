@@ -1,0 +1,26 @@
+# Build output and local runtime configuration
+target/
+.env
+
+# Version control and editor metadata
+.git/
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Local tooling and OS files
+.classpath
+.project
+.settings/
+.DS_Store
+Thumbs.db
+
+# Files not used by the Dockerfile build
+.mvn/
+mvnw
+mvnw.cmd
+compose.yml
+README.md
+HELP.md

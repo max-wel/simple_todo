@@ -48,3 +48,5 @@ crash.log
 # Ansible
 **/vars_file
 **/hosts
+
+.env
