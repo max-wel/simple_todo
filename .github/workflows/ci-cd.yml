@@ -14,16 +14,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Calculate short SHA
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+
       - name: Login to docker-hub
         uses: docker/login-action@v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
           context: .
           push: true
-          tags: ${{vars.DOCKERHUB_USERNAME}}/simple_todo:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/simple_todo:${{ env.COMMIT_SHORT_SHA }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
 
