@@ -18,7 +18,7 @@ jobs:
         run: |
           calculatedSha=$(git rev-parse --short ${{ github.sha }})
           echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${{ vars.DOCKERHUB_USERNAME }}/simple_todo:$calculatedSha"
+          echo "IMAGE_TAG=${{ vars.DOCKERHUB_USERNAME }}/simple_todo:$calculatedSha" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
