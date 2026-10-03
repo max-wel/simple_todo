@@ -24,6 +24,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: simple_todo:latest
+          tags: ${{vars.DOCKERHUB_USERNAME}}/simple_todo:latest
 
 
